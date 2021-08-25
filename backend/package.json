@@ -4,7 +4,7 @@
   "description": "This is some random app",
   "private": true,
   "scripts": {
-    "start": "nodemon ./dist/server.js",
+    "start": "nodemon ./dist/index.js",
     "clean": "rm -rf ./dist",
     "build": "clean & tsc",
     "watch": "tsc -w",

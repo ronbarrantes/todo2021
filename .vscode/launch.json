@@ -7,11 +7,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Server",
+            "name": "Start Server",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/backend/dist/server.js",
+            "program": "${workspaceFolder}/backend/dist/index.js",
             "preLaunchTask": "tsc: build - backend/tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/backend/dist/**/*.js"
