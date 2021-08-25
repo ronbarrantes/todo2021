@@ -5,9 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Backend Server",
             "type": "node",
             "request": "launch",
-            "name": "Start Server",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -15,6 +15,18 @@
             "preLaunchTask": "tsc: build - backend/tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/backend/dist/**/*.js"
+            ]
+        },
+        {
+            "name": "TS-Node Backend",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/backend",
+            "runtimeArgs": ["-r", "ts-node/register"],
+            "args": ["${workspaceRoot}/backend/src/index.ts"],
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/**",
+                "!**/node_modules/**"
             ]
         }
     ]
