@@ -8,11 +8,8 @@ let server: null | http.Server
 
 // fake state
 const app = express()
-
 app.use(express.json())
-
 app.use(Todo)
-
 app.get('/', (_req: Request, res: Response) => {
     return res.send('hello')
 })
