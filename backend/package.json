@@ -28,5 +28,8 @@
     "*.{js,ts,tsx}": [
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
