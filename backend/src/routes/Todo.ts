@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { setTask } from '../utils'
+import httpErrors from 'http-errors'
 
 export interface ITodo {
     id: string;
@@ -19,7 +20,8 @@ const Todo = Router()
     .post('/todos/add', (req: Request, res: Response) => {
         const currTask = <ITodo>req.body
         if(!currTask.task){
-            return res.send('missing task')
+            res.send('missing task')
+            httpErrors(400, 'Error: Missing task')
         }
 
         const newTask = setTask(currTask)
