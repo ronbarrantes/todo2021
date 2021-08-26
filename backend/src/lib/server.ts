@@ -4,7 +4,7 @@ import * as http from 'http'
 import Todo from '../routes/Todo'
 
 const PORT = 3000
-let server: null | http.Server
+let server: http.Server | null
 
 // fake state
 const app = express()
