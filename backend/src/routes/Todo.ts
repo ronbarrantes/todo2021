@@ -46,4 +46,6 @@ const Todo = Router()
 // delete a todo
 // todo.delete('/todos/allTodos', (_req: Request, _res: Response) => {})
 
+// MAYBE HAVE ONE FOR COMPLETED
+
 export default Todo
