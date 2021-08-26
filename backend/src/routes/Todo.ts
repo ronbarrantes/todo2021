@@ -28,8 +28,21 @@ const Todo = Router()
         return res.json(newTask)
     })
 // put a todo
-// todo.put('/todos/allTodos/:todoId', (_req: Request, _res: Response) => {})
+    .put('/todos/update/:todoId', (req: Request, res: Response) => {
+        const id = req.params.todoId
+        const body = <ITodo>req.body
 
+        if(id.length === 0 || !id)
+            return res.send('please provide id')
+
+        const item = state.get(id)
+        const task = body.task || item?.task
+        const completed = body.completed || item?.completed
+
+        const newTask = setTask({ ...item, task, completed })
+        state.set(id, newTask)
+        return res.json(newTask)
+    })
 // delete a todo
 // todo.delete('/todos/allTodos', (_req: Request, _res: Response) => {})
 
