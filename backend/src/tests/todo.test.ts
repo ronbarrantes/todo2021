@@ -12,7 +12,7 @@ const url = 'http://localhost:3000/todos'
 type MakeNewTodo = (task: string) => Promise<ITodo>
 
 const makeNewTodo: MakeNewTodo = async (task) => {
-    const fetched = await fetch(`${url}/addTodo`, {
+    const fetched = await fetch(`${url}/add`, {
         method: 'POST',
         body: JSON.stringify({ task }),
         headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@ describe('Todo Routes', () => {
             const task2 = await makeNewTodo(makeRandomWords())
             await makeNewTodo(makeRandomWords())
 
-            const allTodos = await (await fetch(`${url}/allTodos`)).json()
+            let allTodos: ITodo[] = await (await fetch(`${url}`)).json()
             assert.deepStrictEqual(allTodos.length, 4, 'missing some of the todos')
 
             const updatedTask: Partial<ITodo> = { task: 'Go to sleep', completed: true }
@@ -63,16 +63,21 @@ describe('Todo Routes', () => {
             assert.notDeepEqual(modifiedAt, createdAt, 'needs to modify the created date')
 
             // DELETE
-            // fetch(`${url}/todos/remove/${task2.id}`, { method: 'DELETE' })
+            const message2 = await (await fetch(`${url}/remove/${task2.id}`, { method: 'DELETE' })).json()
+            console.log('MESSAGE', message2)
 
-            // assert.notExists()
+            allTodos = await (await fetch(`${url}`)).json()
+            let todoExist = false
+
+            for(const todo of allTodos){
+                if(todo.id === task2.id){
+                    todoExist = true
+                    break
+                }
+            }
+
+            assert.isNotTrue(todoExist, 'todo should have been deleted')
         })
     })
 
-    describe('PUT', async () => {
-        it('will update a todo')
-    })
-    describe('DELETE', () => {
-        it('will delete the todo')
-    })
 })
