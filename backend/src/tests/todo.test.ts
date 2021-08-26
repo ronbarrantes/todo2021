@@ -48,6 +48,8 @@ describe('Todo Routes', () => {
             assert.deepStrictEqual(allTodos.length, 4, 'missing some of the todos')
 
             const updatedTask: Partial<ITodo> = { task: 'Go to sleep', completed: true }
+
+            // UPDATE
             const modified: ITodo = await (await fetch(`${url}/update/${task2.id}`,
                 {
                     method: 'PUT',
@@ -59,6 +61,11 @@ describe('Todo Routes', () => {
             const { task, completed, modifiedAt, createdAt } = modified
             assert.deepStrictEqual({ task, completed }, { ...updatedTask }, 'did not update')
             assert.notDeepEqual(modifiedAt, createdAt, 'needs to modify the created date')
+
+            // DELETE
+            // fetch(`${url}/todos/remove/${task2.id}`, { method: 'DELETE' })
+
+            // assert.notExists()
         })
     })
 
