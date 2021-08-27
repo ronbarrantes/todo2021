@@ -5,7 +5,8 @@ import { json as jsonParser } from 'body-parser'
 import { HttpError } from 'http-errors'
 import * as mongoose from '../lib/mongoose-connect'
 
-import Todo from '../routes/Todo'
+import Todo from '../routes/todo'
+import { errorMessages, infoMessages, logMessages } from '../constants/messages'
 
 const PORT = 3000
 const production = false
@@ -23,7 +24,7 @@ app.get('/', (_req: Request, res: Response) => {
 })
 
 app.all('*', (_req: Request, res: Response) => {
-    res.json({ message: 'Route does not exist' })
+    res.json({ message: infoMessages.routes.doesNotExist })
 })
 
 // ERROR MIDDLEWARE
@@ -40,33 +41,32 @@ export const start = async (): Promise<void> => {
     try {
         const connection = await mongoose.start()
         if(!connection) {
-            throw new Error('CONNECTION COULD NOT BE MADE')
+            throw new Error(errorMessages.server.cantConnect)
         }
         if(server)
-            throw new Error('There is a server running')
+            throw new Error(errorMessages.server.serverRunning)
         server = app.listen(PORT, () => {
-            console.log(`Server Up @ localhost:${PORT}`)
-            // return
+            console.log(logMessages.server.connected.replace('$1', `${PORT}`))
         })
     } catch (error) {
-        console.error('ERROR:', error)
+        console.error(errorMessages.error, error)
     }
 }
 
 export const stop = async (): Promise<void> => {
     try {
         if(!server)
-            throw new Error('There is no server running')
+            throw new Error(errorMessages.server.noServerRunning)
 
         server.close(() => {
-            console.log(`Server off`)
+            console.log(logMessages.server.disconnected)
             server = null
         })
 
         await mongoose.stop()
 
     } catch (error) {
-        console.error('ERROR:', error)
+        console.error(errorMessages.error, error)
     }
 
 }

@@ -4,7 +4,7 @@ import fetch from 'node-fetch'
 import { lorem } from 'faker'
 
 import { start, stop } from '../lib/server'
-import { ITodo } from '../routes/Todo'
+import { ITodo } from '../routes/todo'
 
 const url = 'http://localhost:3000/todos'
 
