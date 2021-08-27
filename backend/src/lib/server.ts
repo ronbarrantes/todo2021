@@ -18,11 +18,11 @@ app.use(morgan(production ? 'combined' : 'dev'))
 app.use(Todo)
 
 app.get('/', (_req: Request, res: Response) => {
-    return res.json({ message: 'WELCOME TO MY PAGE' })
+    return res.json({ message: 'Todo App' })
 })
 
 app.all('*', (_req: Request, res: Response) => {
-    res.json({ message: 'route does not exist' })
+    res.json({ message: 'Route does not exist' })
 })
 
 // ERROR MIDDLEWARE
@@ -40,7 +40,7 @@ export const start = (): void => {
             throw new Error('There is a server running')
         server = app.listen(PORT, () => {
             console.log(`Server Up @ localhost:${PORT}`)
-            return
+            // return
         })
     } catch (error) {
         console.error('ERROR:', error)
