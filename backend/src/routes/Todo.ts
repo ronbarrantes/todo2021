@@ -65,7 +65,7 @@ const Todo = Router()
         }
 
         state.delete(id)
-        res.send({ message: 'Todo deleted' })
+        return res.send({ message: 'Todo deleted' })
     })
 
 export default Todo
