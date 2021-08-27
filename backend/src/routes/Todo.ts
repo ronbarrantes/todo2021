@@ -7,10 +7,12 @@ export interface ITodo {
     task: string;
     completed?: boolean;
     createdAt?: number;
-    modifiedAt?: number
+    modifiedAt?: number;
 }
 
-const state: Map<string, ITodo> = new Map()
+export type TState = Map<string, ITodo>
+
+const state: TState = new Map()
 
 const Todo = Router()
     .get('/todos', (_req: Request, res: Response) => {
@@ -19,6 +21,7 @@ const Todo = Router()
 
     .post('/todos/add', (req: Request, res: Response, next: NextFunction) => {
         const currTask = <ITodo>req.body
+
         if(!currTask.task)
             return next(httpErrors(400, 'Missing task'))
 
@@ -55,7 +58,6 @@ const Todo = Router()
         if(id.length === 0 || !id){
             return next(httpErrors(400, 'ID not available'))
         }
-        // return res.send('please provide id')
 
         if(!state.has(id)){
             res.send('No Id provided')
@@ -63,9 +65,7 @@ const Todo = Router()
         }
 
         state.delete(id)
-        res.send({ message: 'todo deleted' })
+        res.send({ message: 'Todo deleted' })
     })
-
-// MAYBE HAVE ONE FOR COMPLETED
 
 export default Todo

@@ -8,7 +8,6 @@ import { ITodo } from '../routes/Todo'
 
 const url = 'http://localhost:3000/todos'
 
-// let state: Map<string, ITodo> = new Map()
 type MakeNewTodo = (task: string) => Promise<ITodo>
 
 const makeNewTodo: MakeNewTodo = async (task) => {
@@ -79,5 +78,4 @@ describe('Todo Routes', () => {
             assert.isNotTrue(todoExist, 'todo should have been deleted')
         })
     })
-
 })
