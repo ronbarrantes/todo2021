@@ -5,6 +5,7 @@ export const setTask = (payload: Partial<ITodo>): ITodo => {
     const { id, createdAt, completed, task } = payload
     const currDate = Date.now()
 
+    // TODO: remove the if below
     if(!task || task.length === 0){
         throw new Error('Need a proper task')
     }
