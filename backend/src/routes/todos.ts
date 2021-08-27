@@ -50,6 +50,7 @@ const todo = Router()
 
         const newTask = setTask({ ...item, task, completed })
         state.set(id, newTask)
+
         return res.json(newTask)
     })
 
@@ -63,7 +64,7 @@ const todo = Router()
             return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
 
         state.delete(id)
-        res.send({ message: infMsg.todos.deleted })
+        return res.send({ message: infMsg.todos.deleted })
     })
 
 export default todo
