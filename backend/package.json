@@ -10,10 +10,9 @@
     "watch": "tsc -w",
     "ts-start": "npx ts-node src/index.ts",
     "ts-watch": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
     "prepare": "cd .. && husky install backend/.husky",
-    "ts-mocha": "ts-mocha -p tsconfig.json src/**/*.test.ts"
+    "test": "ts-mocha -p tsconfig.json src/**/*.test.ts"
   },
   "keywords": [],
   "author": "",
