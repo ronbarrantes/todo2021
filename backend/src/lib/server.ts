@@ -1,17 +1,37 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import * as http from 'http'
+import morgan from 'morgan'
+import { json as jsonParser } from 'body-parser'
+import { HttpError } from 'http-errors'
 
 import Todo from '../routes/Todo'
 
 const PORT = 3000
+const production = false
 let server: http.Server | null
 
-// fake state
 const app = express()
-app.use(express.json())
+app.use(jsonParser())
+app.use(morgan(production ? 'combined' : 'dev'))
+
+// ROUTES
 app.use(Todo)
+
 app.get('/', (_req: Request, res: Response) => {
-    return res.send('hello')
+    return res.json({ message: 'WELCOME TO MY PAGE' })
+})
+
+app.all('*', (_req: Request, res: Response) => {
+    res.json({ message: 'route does not exist' })
+})
+
+// ERROR MIDDLEWARE
+app.use((err: HttpError, _req: Request, res: Response, next: NextFunction) => {
+    console.error(err)
+    if(err.status)
+        return res.sendStatus(err.status)
+    res.sendStatus(500)
+    return next()
 })
 
 export const start = (): void => {
