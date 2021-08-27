@@ -3,6 +3,7 @@ import * as http from 'http'
 import morgan from 'morgan'
 import { json as jsonParser } from 'body-parser'
 import { HttpError } from 'http-errors'
+import * as mongoose from '../lib/mongoose-connect'
 
 import Todo from '../routes/Todo'
 
@@ -34,8 +35,13 @@ app.use((err: HttpError, _req: Request, res: Response, next: NextFunction) => {
     return next()
 })
 
-export const start = (): void => {
+export const start = async (): Promise<void> => {
+
     try {
+        const connection = await mongoose.start()
+        if(!connection) {
+            throw new Error('CONNECTION COULD NOT BE MADE')
+        }
         if(server)
             throw new Error('There is a server running')
         server = app.listen(PORT, () => {
@@ -47,7 +53,7 @@ export const start = (): void => {
     }
 }
 
-export const stop = (): void => {
+export const stop = async (): Promise<void> => {
     try {
         if(!server)
             throw new Error('There is no server running')
@@ -57,7 +63,10 @@ export const stop = (): void => {
             server = null
         })
 
+        await mongoose.stop()
+
     } catch (error) {
         console.error('ERROR:', error)
     }
+
 }
