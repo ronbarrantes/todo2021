@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import { setTask } from '../utils'
 import httpErrors from 'http-errors'
+import { errorMessages as errMsg, infoMessages as infMsg } from '../constants/messages'
 
 export interface ITodo {
     id: string;
@@ -14,7 +15,7 @@ export type TState = Map<string, ITodo>
 
 const state: TState = new Map()
 
-const Todo = Router()
+const todo = Router()
     .get('/todos', (_req: Request, res: Response) => {
         return res.json([...state].map((val) => val[1]))
     })
@@ -23,7 +24,7 @@ const Todo = Router()
         const currTask = <ITodo>req.body
 
         if(!currTask.task)
-            return next(httpErrors(400, 'Missing task'))
+            return next(httpErrors(400, errMsg.httpErrors.missingTask))
 
         const newTask = setTask(currTask)
         state.set(newTask.id, newTask)
@@ -35,13 +36,13 @@ const Todo = Router()
         const body = <ITodo>req.body
 
         if(id.length === 0 || !id)
-            return next(httpErrors(400, 'ID not available'))
+            return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
 
         if(!state.has(id))
-            return next(httpErrors(404, 'Todo does not exist'))
+            return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
 
         if(!body.task && !body.completed)
-            return next(httpErrors(400, `Nothing to modify for todo with id of ${id}`))
+            return next(httpErrors(400, errMsg.httpErrors.nothingToModify.replace('$1', id)))
 
         const item = state.get(id)
         const task = body.task || item?.task
@@ -49,23 +50,21 @@ const Todo = Router()
 
         const newTask = setTask({ ...item, task, completed })
         state.set(id, newTask)
+
         return res.json(newTask)
     })
 
     .delete('/todos/remove/:todoId', (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.todoId
 
-        if(id.length === 0 || !id){
-            return next(httpErrors(400, 'ID not available'))
-        }
+        if(id.length === 0 || !id)
+            return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
 
-        if(!state.has(id)){
-            res.send('No Id provided')
-            return next(httpErrors(404, 'Todo does not exist'))
-        }
+        if(!state.has(id))
+            return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
 
         state.delete(id)
-        res.send({ message: 'Todo deleted' })
+        return res.send({ message: infMsg.todos.deleted })
     })
 
-export default Todo
+export default todo

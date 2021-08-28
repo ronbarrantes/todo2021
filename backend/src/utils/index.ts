@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { ITodo } from '../routes/Todo'
+import { ITodo } from '../routes/todo'
 
 export const setTask = (payload: Partial<ITodo>): ITodo => {
     const { id, createdAt, completed, task } = payload

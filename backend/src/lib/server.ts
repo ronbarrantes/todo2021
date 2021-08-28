@@ -5,25 +5,30 @@ import { json as jsonParser } from 'body-parser'
 import { HttpError } from 'http-errors'
 import * as mongoose from '../lib/mongoose-connect'
 
-import Todo from '../routes/Todo'
+import todo from '../routes/todo'
+import * as config from '../config'
+import {
+    errorMessages as errMsg,
+    infoMessages as infMsg,
+    logMessages as logMsg,
+} from '../constants/messages'
 
-const PORT = 3000
-const production = false
+const PORT = process.env.PORT || config.port
 let server: http.Server | null
 
 const app = express()
 app.use(jsonParser())
-app.use(morgan(production ? 'combined' : 'dev'))
+app.use(morgan(config.isProduction ? 'combined' : 'dev'))
 
 // ROUTES
-app.use(Todo)
+app.use(todo)
 
 app.get('/', (_req: Request, res: Response) => {
     return res.json({ message: 'Todo App' })
 })
 
 app.all('*', (_req: Request, res: Response) => {
-    res.json({ message: 'Route does not exist' })
+    res.json({ message: infMsg.routes.doesNotExist })
 })
 
 // ERROR MIDDLEWARE
@@ -36,37 +41,35 @@ app.use((err: HttpError, _req: Request, res: Response, next: NextFunction) => {
 })
 
 export const start = async (): Promise<void> => {
-
     try {
         const connection = await mongoose.start()
         if(!connection) {
-            throw new Error('CONNECTION COULD NOT BE MADE')
+            throw new Error(errMsg.server.cantConnect)
         }
         if(server)
-            throw new Error('There is a server running')
+            throw new Error(errMsg.server.serverRunning)
         server = app.listen(PORT, () => {
-            console.log(`Server Up @ localhost:${PORT}`)
-            // return
+            console.log(logMsg.server.connected.replace('$1', `${PORT}`))
         })
     } catch (error) {
-        console.error('ERROR:', error)
+        console.error(errMsg.error, error)
     }
 }
 
 export const stop = async (): Promise<void> => {
     try {
         if(!server)
-            throw new Error('There is no server running')
+            throw new Error(errMsg.server.noServerRunning)
 
         server.close(() => {
-            console.log(`Server off`)
+            console.log(logMsg.server.disconnected)
             server = null
         })
 
         await mongoose.stop()
 
     } catch (error) {
-        console.error('ERROR:', error)
+        console.error(errMsg.error, error)
     }
 
 }
