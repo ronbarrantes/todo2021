@@ -1,4 +1,4 @@
-export const dbName = 'todo2021'
+export const dbName = 'todoApp2021'
 export const isProduction = false
 export const port = 3000
 export const mongodb = { url: `mongodb://localhost:27017/${dbName}` }
