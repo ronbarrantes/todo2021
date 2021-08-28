@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose'
-// import { ITodo } from '../routes/todo'
+export interface ITodo {
+    task: string;
+    completed?: boolean;
+    createdAt?: number;
+    modifiedAt?: number;
+}
 
 // TODO: cleanup
-const TodoSchema = new mongoose.Schema({
+export const TodoSchema = new mongoose.Schema<ITodo>({
     // id:{ type: String, unique: true, required: true},
     task:{ type: String, unique: false, trim: true },
     completed:{ type: Boolean, default: false },
