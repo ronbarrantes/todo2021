@@ -5,7 +5,7 @@ import { json as jsonParser } from 'body-parser'
 import { HttpError } from 'http-errors'
 import * as mongoose from '../lib/mongoose-connect'
 
-import Todo from '../routes/todo'
+import todo from '../routes/todo'
 import * as config from '../config'
 import {
     errorMessages as errMsg,
@@ -21,7 +21,7 @@ app.use(jsonParser())
 app.use(morgan(config.isProduction ? 'combined' : 'dev'))
 
 // ROUTES
-app.use(Todo)
+app.use(todo)
 
 app.get('/', (_req: Request, res: Response) => {
     return res.json({ message: 'Todo App' })
