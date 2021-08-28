@@ -1,4 +1,4 @@
-export const appName = 'todoApp'
+export const appName = 'Todo'
 export const isProduction = false
 export const port = 3000
 export const mongodb = { url: `mongodb://localhost:27017/${appName}` }
