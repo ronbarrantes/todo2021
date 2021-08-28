@@ -1,12 +1,11 @@
-import { TodoModel as Todo } from '../models/TodoModel'
-import { ITodo } from '../routes/todo'
+import { TodoModel as Todo, ITodo } from '../models/TodoModel'
 import { Document } from 'mongoose'
 
 class TodoServices {
 // get all
     // static async getAll(data: Partial<ITodo>):Promise<Document>{}
 
-    static async create(data: Partial<ITodo>): Promise<Document>{
+    static async create(data: ITodo): Promise<Document>{
         const todo = new Todo(data)
         return todo.save()
     }
