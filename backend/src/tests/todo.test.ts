@@ -1,4 +1,4 @@
-
+import './mocks/setup'
 import { assert } from 'chai'
 import fetch from 'node-fetch'
 import { makeRandomWords } from './mocks/utils'
@@ -9,7 +9,7 @@ import { ITodo } from '../models/TodoModel'
 
 const url = 'http://localhost:3000/todos'
 
-type MakeNewTodo = (task: string) => Promise<ITodo>
+// type MakeNewTodo = (task: string) => Promise<ITodo>
 
 // const makeNewTodo: MakeNewTodo = async (task) => {
 //     const fetched = await fetch(`${url}/add`, {
@@ -21,8 +21,10 @@ type MakeNewTodo = (task: string) => Promise<ITodo>
 //     return response
 // }
 
+console.log('PORT ====>>>', process.env.PORT)
+
 describe('Todo Routes', () => {
-    before(start)
+    before(() => start('testing'))
     after(stop)
 
     describe('POST', () => {
