@@ -6,15 +6,19 @@ import { HttpError } from 'http-errors'
 import * as mongoose from '../lib/mongoose-connect'
 
 import Todo from '../routes/todo'
-import { errorMessages, infoMessages, logMessages } from '../constants/messages'
+import * as config from '../config'
+import {
+    errorMessages as errMsg,
+    infoMessages as infMsg,
+    logMessages as logMsg,
+} from '../constants/messages'
 
-const PORT = 3000
-const production = false
+const PORT = process.env.PORT || config.port
 let server: http.Server | null
 
 const app = express()
 app.use(jsonParser())
-app.use(morgan(production ? 'combined' : 'dev'))
+app.use(morgan(config.isProduction ? 'combined' : 'dev'))
 
 // ROUTES
 app.use(Todo)
@@ -24,7 +28,7 @@ app.get('/', (_req: Request, res: Response) => {
 })
 
 app.all('*', (_req: Request, res: Response) => {
-    res.json({ message: infoMessages.routes.doesNotExist })
+    res.json({ message: infMsg.routes.doesNotExist })
 })
 
 // ERROR MIDDLEWARE
@@ -37,36 +41,35 @@ app.use((err: HttpError, _req: Request, res: Response, next: NextFunction) => {
 })
 
 export const start = async (): Promise<void> => {
-
     try {
         const connection = await mongoose.start()
         if(!connection) {
-            throw new Error(errorMessages.server.cantConnect)
+            throw new Error(errMsg.server.cantConnect)
         }
         if(server)
-            throw new Error(errorMessages.server.serverRunning)
+            throw new Error(errMsg.server.serverRunning)
         server = app.listen(PORT, () => {
-            console.log(logMessages.server.connected.replace('$1', `${PORT}`))
+            console.log(logMsg.server.connected.replace('$1', `${PORT}`))
         })
     } catch (error) {
-        console.error(errorMessages.error, error)
+        console.error(errMsg.error, error)
     }
 }
 
 export const stop = async (): Promise<void> => {
     try {
         if(!server)
-            throw new Error(errorMessages.server.noServerRunning)
+            throw new Error(errMsg.server.noServerRunning)
 
         server.close(() => {
-            console.log(logMessages.server.disconnected)
+            console.log(logMsg.server.disconnected)
             server = null
         })
 
         await mongoose.stop()
 
     } catch (error) {
-        console.error(errorMessages.error, error)
+        console.error(errMsg.error, error)
     }
 
 }
