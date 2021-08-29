@@ -51,10 +51,10 @@ describe('Todo Routes', () => {
             assert.deepEqual(data.length, numOfTodos, `Should have created ${numOfTodos} todos`)
         })
 
-        it('404 fetches the wrong api', async () => {
-            const fetched = await fetch(apiUrl)
-            assert.deepEqual(fetched.status, 404, 'Did not find the api')
-        })
+        // it.skip('404 fetches the wrong api', async () => {
+        //     const fetched = await fetch(apiUrl)
+        //     assert.deepEqual(fetched.status, 404, 'Did not find the api')
+        // })
     })
 
     // describe('PUT')
