@@ -1,34 +1,18 @@
-import './mocks/setup'
 import { assert } from 'chai'
 import fetch from 'node-fetch'
-import { makeRandomWords } from './mocks/utils'
 
+import { makeRandomWords } from './mocks/utils'
 import { start, stop } from '../lib/server'
 import { ITodo } from '../models/TodoModel'
-// import '../services'
 
 const url = 'http://localhost:3000/todos'
-
-// type MakeNewTodo = (task: string) => Promise<ITodo>
-
-// const makeNewTodo: MakeNewTodo = async (task) => {
-//     const fetched = await fetch(`${url}/add`, {
-//         method: 'POST',
-//         body: JSON.stringify({ task }),
-//         headers: { 'Content-Type': 'application/json' },
-//     })
-//     const response: ITodo = await fetched.json()
-//     return response
-// }
-
-console.log('PORT ====>>>', process.env.PORT)
 
 describe('Todo Routes', () => {
     before(() => start('testing'))
     after(stop)
 
     describe('POST', () => {
-        it('200 should create a todo', async () => {
+        it('Should create a todo', async () => {
             const task = makeRandomWords(3)
 
             const fetched = await fetch(`${url}/add`, {
@@ -50,6 +34,12 @@ describe('Todo Routes', () => {
                 headers: { 'Content-Type': 'application/json' },
             })
             assert.notDeepEqual(fetched.status, 200)
+        })
+    })
+
+    describe('GET', () => {
+        it('200 get all 5 todos', async () => {
+            // await mocks.createMany(5)
         })
     })
 
