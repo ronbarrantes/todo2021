@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "node ./dist/index.js",
-    "clean": "rm -rf ./dist",
+    "clean": "rm -rf ./db ./dist",
     "build": "clean & tsc",
     "watch": "tsc -w",
     "ts-start": "npx ts-node src/index.ts",
