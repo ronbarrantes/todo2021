@@ -6,18 +6,18 @@ import { start, stop } from '../lib/server'
 import { ITodo } from '../models/TodoModel'
 import * as mocks from './mocks/todoMock'
 
-const url = 'http://localhost:3000/todos'
+const apiUrl = 'http://localhost:3000/todos'
 
 describe('Todo Routes', () => {
     before(() => start('testing'))
     after(stop)
-    // afterEach(mocks.remove)
+    afterEach(mocks.remove)
 
-    describe.skip('POST', () => {
+    describe('POST', () => {
         it('Should create a todo', async () => {
             const task = makeRandomWords(3)
 
-            const fetched = await fetch(`${url}/add`, {
+            const fetched = await fetch(`${apiUrl}/add`, {
                 method: 'POST',
                 body: JSON.stringify({ task }),
                 headers: { 'Content-Type': 'application/json' },
@@ -29,19 +29,26 @@ describe('Todo Routes', () => {
             assert.deepEqual({ task: response.task }, { task }, 'Tasks do not match')
         })
 
-        it.skip('should fail creating a post with an empty task', async () => {
-            const fetched = await fetch(`${url}/add`, {
+        it('should fail creating a post with an empty task', async () => {
+            const fetched = await fetch(`${apiUrl}/add`, {
                 method: 'POST',
                 body: JSON.stringify({}),
                 headers: { 'Content-Type': 'application/json' },
             })
+
             assert.notDeepEqual(fetched.status, 200)
         })
     })
 
     describe('GET', () => {
         it('200 get all 5 todos', async () => {
-            await mocks.createMany(5)
+            const numOfTodos = 5
+            await mocks.createMany(numOfTodos)
+            const fetched = await fetch(apiUrl)
+            const data: ITodo[] = await fetched.json()
+
+            assert.deepEqual(fetched.status, 200, 'Not OK')
+            assert.deepEqual(data.length, numOfTodos, `Should have created ${numOfTodos} todos`)
         })
     })
 
