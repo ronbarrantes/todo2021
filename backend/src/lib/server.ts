@@ -3,7 +3,7 @@ import * as http from 'http'
 import morgan from 'morgan'
 import { json as jsonParser } from 'body-parser'
 import { HttpError } from 'http-errors'
-import * as mongoose from '../lib/mongoose-connect'
+import * as mongooseConnect from '../lib/mongoose-connect'
 
 import todo from '../routes/todo'
 import * as config from '../config'
@@ -40,9 +40,9 @@ app.use((err: HttpError, _req: Request, res: Response, next: NextFunction) => {
     return next()
 })
 
-export const start = async (): Promise<void> => {
+export const start = async (dbName?: string): Promise<void> => {
     try {
-        const connection = await mongoose.start()
+        const connection = await mongooseConnect.start(dbName)
         if(!connection) {
             throw new Error(errMsg.server.cantConnect)
         }
@@ -66,7 +66,7 @@ export const stop = async (): Promise<void> => {
             server = null
         })
 
-        await mongoose.stop()
+        await mongooseConnect.stop()
 
     } catch (error) {
         console.error(errMsg.error, error)
