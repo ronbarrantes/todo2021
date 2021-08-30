@@ -3,7 +3,7 @@ import * as http from 'http'
 import morgan from 'morgan'
 import { json as jsonParser } from 'body-parser'
 import * as mongooseConnect from './mongooseConnect'
-import { errorMiddleware } from './errorMiddleware'
+import { errorMiddleware } from '../middleware/errorMiddleware'
 
 import todo from '../routes/todo'
 import * as config from '../config'
