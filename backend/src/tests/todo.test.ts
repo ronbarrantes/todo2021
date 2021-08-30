@@ -65,7 +65,7 @@ describe('Todo Routes', () => {
 
             const updated = await fetch(`${apiUrl}/update/${randomTodo._id}`, {
                 method: 'PUT',
-                body: JSON.stringify({ randomTodo }),
+                body: JSON.stringify(randomTodo),
                 headers: { 'Content-Type': 'application/json' },
             })
 
