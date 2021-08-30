@@ -15,13 +15,12 @@ class TodoServices {
         return todo
     }
 
-    // static async remove(todoId){}
+    static async remove(todoId: string): Promise<ITodo | null> {
+        const deletedTodo = await Todo.findByIdAndDelete(todoId).exec()
+        return deletedTodo
+    }
 
-    // static async update(data: Partial<ITodo>):Promise<Document>{}
-    // static async remove(data: Partial<ITodo>):Promise<Document>{}
-
-// delete
-
+    // TODO: add a completed maybe
 }
 
 export default TodoServices
