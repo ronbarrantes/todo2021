@@ -2,9 +2,6 @@ import { TodoModel as Todo, ITodo } from '../models/TodoModel'
 import { Document } from 'mongoose'
 
 class TodoServices {
-// get all
-    // static async getAll(data: Partial<ITodo>):Promise<Document>{}
-
     static async getAll(): Promise<Document[]>{
         return Todo.find({}).exec()
     }

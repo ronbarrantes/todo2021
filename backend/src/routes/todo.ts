@@ -7,10 +7,6 @@ import { errorMessages as errMsg,
 } from '../constants/messages'
 import TodoServices from '../services/TodoServices'
 
-// export type TState = Map<string, ITodo>
-
-// const state: TState = new Map()
-
 const todo = Router()
     .get('/todos', async (_req: Request, res: Response) => {
         const todos = await TodoServices.getAll()
