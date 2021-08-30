@@ -114,7 +114,7 @@ describe('Todo Routes', () => {
             assert.strictEqual(todos.length, numOfTodos, `Should have made ${numOfTodos} todos`)
         })
     })
-    describe.skip('DELETE', () => {
+    describe('DELETE', () => {
         it('200 should delete a todo', async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
@@ -122,23 +122,33 @@ describe('Todo Routes', () => {
             const todos: ITodo[] = await (await fetch(apiUrl)).json()
             const middleTodo = todos[5]
 
-            const deleted = await fetch(`${apiUrl}/update/${middleTodo._id}`, { method: 'DELETE' })
+            const deleted = await fetch(`${apiUrl}/remove/${middleTodo._id}`, { method: 'DELETE' })
 
-            const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
-            const hasDeletedTodo: boolean = updatedTodos.map(todo => todo._id).includes(middleTodo._id)
+            const removedTodos: ITodo[] = await (await fetch(apiUrl)).json()
+            const hasDeletedTodo: boolean = removedTodos.map(todo => todo._id).includes(middleTodo._id)
 
             assert.strictEqual(deleted.status, 200, 'Should have status of 200')
-            assert.strictEqual(updatedTodos.length, numOfTodos - 1, `Should have ${numOfTodos -1 } todos`)
+            assert.strictEqual(removedTodos.length, numOfTodos - 1, `Should have ${numOfTodos -1 } todos`)
             assert.isFalse(hasDeletedTodo, 'Todo should not be there')
         })
         it(`404 can't find a todo to delete`, async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
-            const deleted = await fetch(`${apiUrl}/update/SuperFakeTodo`, { method: 'DELETE' })
+            const deleted = await fetch(`${apiUrl}/remove/SuperFakeTodo`, { method: 'DELETE' })
             const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
 
             assert.strictEqual(deleted.status, 404, 'Should have status of 404')
+            assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
+        })
+        it.only(`400 No ID Provided`, async () => {
+            const numOfTodos = 10
+            await mocks.createMany(numOfTodos)
+
+            const deleted = await fetch(`${apiUrl}/remove/`, { method: 'DELETE' })
+            const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
+
+            assert.strictEqual(deleted.status, 400, 'Should have status of 400')
             assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
         })
     })
