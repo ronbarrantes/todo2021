@@ -3,7 +3,7 @@ import { Router, Request, Response, NextFunction } from 'express'
 import httpErrors from 'http-errors'
 import { ITodo } from '../models/TodoModel'
 import { errorMessages as errMsg,
-    // infoMessages as infMsg
+    infoMessages as infMsg,
 } from '../constants/messages'
 import TodoServices from '../services/TodoServices'
 import { sanitizeBody } from '../middleware/sanitize'
@@ -29,8 +29,6 @@ const todo = Router()
         const id = req.params.todoId
         const body = <ITodo>req.body
 
-        console.log('SANITIZED BODY ==>', body)
-
         if(!id)
             return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
 
@@ -42,21 +40,22 @@ const todo = Router()
         if(!newTodo)
             return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
 
-        console.log(newTodo)
         return res.json(newTodo)
     })
 
-    // .delete('/todos/remove/:todoId', (req: Request, res: Response, next: NextFunction) => {
-    //     const id = req.params.todoId
+    .delete('/todos/remove/:todoId', async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.todoId
 
-    //     if(id.length === 0 || !id)
-    //         return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
+        console.log('ID ==>>', id)
 
-    //     if(!state.has(id))
-    //         return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
+        if(!id)
+            return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
 
-    //     state.delete(id)
-    //     return res.send({ message: infMsg.todos.deleted })
-    // })
+        const deletedTodo = await TodoServices.remove(id)
+        if(!deletedTodo)
+            return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
+
+        return res.send({ message: infMsg.todos.deleted })
+    })
 
 export default todo
