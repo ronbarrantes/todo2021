@@ -24,28 +24,24 @@ const todo = Router()
         return res.json(newTodo)
     })
 
-    // .put('/todos/update/:todoId', (req: Request, res: Response, next: NextFunction) => {
-    //     const id = req.params.todoId
-    //     const body = <ITodo>req.body
+    .put('/todos/update/:todoId', async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.todoId
+        const body = <ITodo>req.body
 
-    //     if(id.length === 0 || !id)
-    //         return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
+        if(!id)
+            return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
 
-    //     if(!state.has(id))
-    //         return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
+        if(!body.task && !body.completed)
+            return next(httpErrors(400, errMsg.httpErrors.nothingToModify.replace('$1', id)))
 
-    //     if(!body.task && !body.completed)
-    //         return next(httpErrors(400, errMsg.httpErrors.nothingToModify.replace('$1', id)))
+        const newTodo = await TodoServices.update(id, body)
 
-    //     const item = state.get(id)
-    //     const task = body.task || item?.task
-    //     const completed = body.completed || item?.completed
+        if(!newTodo)
+            return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
 
-    //     const newTask = setTask({ ...item, task, completed })
-    //     state.set(id, newTask)
-
-    //     return res.json(newTask)
-    // })
+        console.log(newTodo)
+        return res.json(newTodo)
+    })
 
     // .delete('/todos/remove/:todoId', (req: Request, res: Response, next: NextFunction) => {
     //     const id = req.params.todoId
