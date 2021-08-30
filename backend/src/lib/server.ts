@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import * as http from 'http'
 import morgan from 'morgan'
 import { json as jsonParser } from 'body-parser'
-import * as mongooseConnect from '../lib/mongoose-connect'
+import * as mongooseConnect from './mongooseConnect'
 import { errorMiddleware } from './errorMiddleware'
 
 import todo from '../routes/todo'
