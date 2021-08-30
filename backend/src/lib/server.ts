@@ -35,7 +35,7 @@ export const start = async (dbName?: string): Promise<void> => {
         if(server)
             throw new Error(errMsg.server.serverRunning)
         server = app.listen(PORT, () => {
-            console.log(logMsg.server.connected.replace('$1', `${PORT}`))
+            console.info(logMsg.server.connected.replace('$1', `${PORT}`))
         })
     } catch (error) {
         console.error(errMsg.error, error)
@@ -48,7 +48,7 @@ export const stop = async (): Promise<void> => {
             throw new Error(errMsg.server.noServerRunning)
 
         server.close(() => {
-            console.log(logMsg.server.disconnected)
+            console.info(logMsg.server.disconnected)
             server = null
         })
 
@@ -57,5 +57,4 @@ export const stop = async (): Promise<void> => {
     } catch (error) {
         console.error(errMsg.error, error)
     }
-
 }

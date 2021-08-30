@@ -15,7 +15,7 @@ export const start = async (dbName?: string): Promise<Mongoose> => {
 
     isConnected = true
     connection = await connect(`${mongodb.url}/${dbName}`)
-    console.log(logMessages.mongo.connected)
+    console.info(logMessages.mongo.connected)
     return connection
 }
 
@@ -23,7 +23,7 @@ export const stop = async (): Promise<null> => {
     if(!isConnected)
         throw new Error(errorMessages.mongo.disconnected)
 
-    console.log(logMessages.mongo.disconnected)
+    console.info(logMessages.mongo.disconnected)
     isConnected = false
     connection = null
     await disconnect()
