@@ -6,6 +6,10 @@ export interface ITodo {
     modifiedAt?: number;
 }
 
+export interface IMongoTodo extends ITodo {
+    _id: string;
+}
+
 export const TodoSchema = new mongoose.Schema<ITodo>({
     task:{ type: String, unique: false, trim: true },
     completed:{ type: Boolean, default: false },
