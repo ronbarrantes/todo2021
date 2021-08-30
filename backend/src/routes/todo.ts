@@ -7,13 +7,10 @@ import { errorMessages as errMsg,
 } from '../constants/messages'
 import TodoServices from '../services/TodoServices'
 
-export type TState = Map<string, ITodo>
-
-const state: TState = new Map()
-
 const todo = Router()
-    .get('/todos', (_req: Request, res: Response) => {
-        return res.json([...state].map((val) => val[1]))
+    .get('/todos', async (_req: Request, res: Response) => {
+        const todos = await TodoServices.getAll()
+        return res.json(todos)
     })
 
     .post('/todos/add', async (req: Request, res: Response, next: NextFunction) => {
@@ -23,6 +20,7 @@ const todo = Router()
             return next(httpErrors(400, errMsg.httpErrors.missingTask))
 
         const newTodo = await TodoServices.create({ task: currTask.task })
+        res.status(201)
         return res.json(newTodo)
     })
 

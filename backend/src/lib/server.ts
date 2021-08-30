@@ -1,9 +1,9 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response } from 'express'
 import * as http from 'http'
 import morgan from 'morgan'
 import { json as jsonParser } from 'body-parser'
-import { HttpError } from 'http-errors'
 import * as mongooseConnect from '../lib/mongoose-connect'
+import { errorMiddleware } from './errorMiddleware'
 
 import todo from '../routes/todo'
 import * as config from '../config'
@@ -22,23 +22,9 @@ app.use(morgan(config.isProduction ? 'combined' : 'dev'))
 
 // ROUTES
 app.use(todo)
-
-app.get('/', (_req: Request, res: Response) => {
-    return res.json({ message: 'Todo App' })
-})
-
-app.all('*', (_req: Request, res: Response) => {
-    res.json({ message: infMsg.routes.doesNotExist })
-})
-
-// ERROR MIDDLEWARE
-app.use((err: HttpError, _req: Request, res: Response, next: NextFunction) => {
-    console.error(err)
-    if(err.status)
-        return res.sendStatus(err.status)
-    res.sendStatus(500)
-    return next()
-})
+app.get('/', (_req: Request, res: Response) => res.json({ message: 'Todo App' }))
+app.all('*', (_req: Request, res: Response) => res.json({ message: infMsg.routes.doesNotExist }))
+app.use(errorMiddleware)
 
 export const start = async (dbName?: string): Promise<void> => {
     try {

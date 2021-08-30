@@ -12,9 +12,7 @@ export const create: Create = async (text) => {
 }
 
 export const createMany: CreateMany = async (num = 5) => {
-    const result = await Promise.all(new Array(num).fill({}).map(async () => await create()))
-    console.log(result)
-    return result
+    return await Promise.all(new Array(num).fill({}).map(async () => await create()))
 }
 
 export const remove = async (): Promise<void> => TodoModel.deleteMany({})
