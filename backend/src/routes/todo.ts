@@ -24,6 +24,7 @@ const todo = Router()
             return next(httpErrors(400, errMsg.httpErrors.missingTask))
 
         const newTodo = await TodoServices.create({ task: currTask.task })
+        res.status(201)
         return res.json(newTodo)
     })
 
