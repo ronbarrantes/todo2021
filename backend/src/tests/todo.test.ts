@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 
 import { makeRandomWords } from './mocks/utils'
 import { start, stop } from '../lib/server'
-import { ITodo, IMongoTodo } from '../models/TodoModel'
+import { ITodo } from '../models/TodoModel'
 import * as mocks from './mocks/todoMock'
 
 const apiUrl = 'http://localhost:3000/todos'
@@ -45,7 +45,7 @@ describe('Todo Routes', () => {
             const numOfTodos = 5
             await mocks.createMany(numOfTodos)
             const fetched = await fetch(apiUrl)
-            const data: IMongoTodo[] = await fetched.json()
+            const data: ITodo[] = await fetched.json()
 
             assert.strictEqual(fetched.status, 200, 'Should have status of 200')
             assert.strictEqual(data.length, numOfTodos, `Should have created ${numOfTodos} todos`)
@@ -57,7 +57,7 @@ describe('Todo Routes', () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
-            let todos: IMongoTodo[] = await (await fetch(apiUrl)).json()
+            let todos: ITodo[] = await (await fetch(apiUrl)).json()
             const randomTodo = todos[Math.floor(Math.random() * numOfTodos)]
 
             randomTodo.task = 'Go to sleep'
@@ -84,7 +84,7 @@ describe('Todo Routes', () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
-            const todos: IMongoTodo[] = await (await fetch(apiUrl)).json()
+            const todos: ITodo[] = await (await fetch(apiUrl)).json()
             const middleTodo = todos[5]
 
             const updated = await fetch(`${apiUrl}/update/${middleTodo._id}`, {
@@ -100,7 +100,7 @@ describe('Todo Routes', () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
-            const todos: IMongoTodo[] = await (await fetch(apiUrl)).json()
+            const todos: ITodo[] = await (await fetch(apiUrl)).json()
 
             const updated = await fetch(`${apiUrl}/update/NotARealTodo`, {
                 method: 'PUT',
@@ -119,12 +119,12 @@ describe('Todo Routes', () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
-            const todos: IMongoTodo[] = await (await fetch(apiUrl)).json()
+            const todos: ITodo[] = await (await fetch(apiUrl)).json()
             const middleTodo = todos[5]
 
             const deleted = await fetch(`${apiUrl}/update/${middleTodo._id}`, { method: 'DELETE' })
 
-            const updatedTodos: IMongoTodo[] = await (await fetch(apiUrl)).json()
+            const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
             const hasDeletedTodo: boolean = updatedTodos.map(todo => todo._id).includes(middleTodo._id)
 
             assert.strictEqual(deleted.status, 200, 'Should have status of 200')
@@ -136,7 +136,7 @@ describe('Todo Routes', () => {
             await mocks.createMany(numOfTodos)
 
             const deleted = await fetch(`${apiUrl}/update/SuperFakeTodo`, { method: 'DELETE' })
-            const updatedTodos: IMongoTodo[] = await (await fetch(apiUrl)).json()
+            const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
 
             assert.strictEqual(deleted.status, 404, 'Should have status of 404')
             assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
