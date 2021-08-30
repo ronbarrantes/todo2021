@@ -1,10 +1,9 @@
 import { makeRandomWords } from './utils'
 import TodoServices from '../../services/TodoServices'
-import { Document } from 'mongoose'
-import { TodoModel } from '../../models/TodoModel'
+import { ITodo, TodoModel } from '../../models/TodoModel'
 
-type Create = (text?: string) => Promise<Document>
-type CreateMany = (num?: number) => Promise<Document[]>
+type Create = (text?: string) => Promise<ITodo>
+type CreateMany = (num?: number) => Promise<ITodo[]>
 
 export const create: Create = async (text) => {
     text = text || makeRandomWords()
