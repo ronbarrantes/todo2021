@@ -114,7 +114,7 @@ describe('Todo Routes', () => {
             assert.strictEqual(todos.length, numOfTodos, `Should have made ${numOfTodos} todos`)
         })
     })
-    describe('DELETE', () => {
+    describe.skip('DELETE', () => {
         it('200 should delete a todo', async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
