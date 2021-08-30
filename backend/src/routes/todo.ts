@@ -6,6 +6,7 @@ import { errorMessages as errMsg,
     // infoMessages as infMsg
 } from '../constants/messages'
 import TodoServices from '../services/TodoServices'
+import { sanitizeBody } from '../middleware/sanitize'
 
 const todo = Router()
     .get('/todos', async (_req: Request, res: Response) => {
@@ -13,7 +14,7 @@ const todo = Router()
         return res.json(todos)
     })
 
-    .post('/todos/add', async (req: Request, res: Response, next: NextFunction) => {
+    .post('/todos/add', sanitizeBody, async (req: Request, res: Response, next: NextFunction) => {
         const currTask = <ITodo>req.body
 
         if(!currTask.task)
@@ -24,9 +25,11 @@ const todo = Router()
         return res.json(newTodo)
     })
 
-    .put('/todos/update/:todoId', async (req: Request, res: Response, next: NextFunction) => {
+    .put('/todos/update/:todoId', sanitizeBody, async (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.todoId
         const body = <ITodo>req.body
+
+        console.log('SANITIZED BODY ==>', body)
 
         if(!id)
             return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
