@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { HttpError } from 'http-errors'
 
-// TODO: figure out what to add as a return type
-export const errorMiddleware = (err: HttpError, _req: Request, res: Response, next: NextFunction): any => {
+export const errorMiddleware = (err: HttpError, _req: Request, res: Response, next: NextFunction): Response | void => {
     console.error(err)
 
     if(err.status)
