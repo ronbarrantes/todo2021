@@ -39,7 +39,6 @@ describe('Todo Routes', () => {
             assert.strictEqual(fetched.status, 400, 'Should have a status of 400')
         })
     })
-
     describe('GET', () => {
         it('200 get all 5 todos', async () => {
             const numOfTodos = 5
@@ -51,7 +50,6 @@ describe('Todo Routes', () => {
             assert.strictEqual(data.length, numOfTodos, `Should have created ${numOfTodos} todos`)
         })
     })
-
     describe('PUT', () => {
         it('200 should update a todo', async () => {
             const numOfTodos = 10
