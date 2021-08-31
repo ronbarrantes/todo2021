@@ -2,9 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express'
 // import { setTask } from '../utils'
 import httpErrors from 'http-errors'
 import { ITodo } from '../models/TodoModel'
-import { errorMessages as errMsg,
-    infoMessages as infMsg,
-} from '../constants/messages'
+import { errorMessages as errMsg } from '../constants/messages'
 import TodoServices from '../services/TodoServices'
 import { sanitizeBody } from '../middleware/sanitize'
 
@@ -29,9 +27,6 @@ const todo = Router()
         const id = req.params.todoId
         const body = <ITodo>req.body
 
-        if(!id)
-            return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
-
         if(!body.task && !body.completed)
             return next(httpErrors(400, errMsg.httpErrors.nothingToModify.replace('$1', id)))
 
@@ -46,8 +41,6 @@ const todo = Router()
     .delete('/todos/remove/:todoId', async (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.todoId
 
-        if(!id)
-            return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
         let deletedTodo: ITodo | null
         try {
             deletedTodo = await TodoServices.remove(id)

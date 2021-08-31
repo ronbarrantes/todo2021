@@ -131,6 +131,7 @@ describe('Todo Routes', () => {
             assert.strictEqual(removedTodos.length, numOfTodos - 1, `Should have ${numOfTodos -1 } todos`)
             assert.isFalse(hasDeletedTodo, 'Todo should not be there')
         })
+
         it(`404 can't find a todo to delete`, async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
@@ -141,14 +142,15 @@ describe('Todo Routes', () => {
             assert.strictEqual(deleted.status, 404, 'Should have status of 404')
             assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
         })
-        it.only(`400 No ID Provided`, async () => {
+
+        it(`404 No ID Provided`, async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
-            const deleted = await fetch(`${apiUrl}/remove/`, { method: 'DELETE' })
+            const deleted = await fetch(`${apiUrl}/remove`, { method: 'DELETE' })
             const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
 
-            assert.strictEqual(deleted.status, 400, 'Should have status of 400')
+            assert.strictEqual(deleted.status, 404, 'Should have status of 404')
             assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
         })
     })
