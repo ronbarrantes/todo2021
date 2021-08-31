@@ -15,5 +15,3 @@ export const TodoSchema = new mongoose.Schema<ITodo>({
 })
 
 export const TodoModel = mongoose.model('Todo', TodoSchema)
-
-TodoModel.findByIdAndUpdate()
