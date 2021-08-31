@@ -80,6 +80,55 @@ describe('Todo Routes', () => {
                 `Did not update the todo`)
             assert.notStrictEqual(updatedTodo.modifiedAt, randomTodo.modifiedAt, 'Should have different dates')
         })
+
+        it('200 should test updating task only', async () => {
+            const numOfTodos = 10
+            await mocks.createMany(numOfTodos)
+
+            let todos: ITodo[] = await (await fetch(apiUrl)).json()
+            const randomTodo = todos[Math.floor(Math.random() * numOfTodos)]
+
+            randomTodo.task = 'Go to sleep'
+
+            const updated = await fetch(`${apiUrl}/update/${randomTodo._id}`, {
+                method: 'PUT',
+                body: JSON.stringify(randomTodo),
+                headers: { 'Content-Type': 'application/json' },
+            })
+
+            todos = await (await fetch(apiUrl)).json()
+            const updatedTodo = todos.filter(todo => todo._id === randomTodo._id)[0]
+
+            assert.strictEqual(updated.status, 200, 'Should have status of 200')
+            assert.strictEqual(todos.length, numOfTodos, 'Should have the same number of todos')
+            assert.strictEqual(updatedTodo.task, randomTodo.task, `Did not update the todo`)
+            assert.notStrictEqual(updatedTodo.modifiedAt, randomTodo.modifiedAt, 'Should have different dates')
+        })
+
+        it('200 should test updating completed only', async () => {
+            const numOfTodos = 10
+            await mocks.createMany(numOfTodos)
+
+            let todos: ITodo[] = await (await fetch(apiUrl)).json()
+            const randomTodo = todos[Math.floor(Math.random() * numOfTodos)]
+
+            randomTodo.completed = true
+
+            const updated = await fetch(`${apiUrl}/update/${randomTodo._id}`, {
+                method: 'PUT',
+                body: JSON.stringify(randomTodo),
+                headers: { 'Content-Type': 'application/json' },
+            })
+
+            todos = await (await fetch(apiUrl)).json()
+            const updatedTodo = todos.filter(todo => todo._id === randomTodo._id)[0]
+
+            assert.strictEqual(updated.status, 200, 'Should have status of 200')
+            assert.strictEqual(todos.length, numOfTodos, 'Should have the same number of todos')
+            assert.strictEqual(updatedTodo.completed, randomTodo.completed, `Did not update the todo`)
+            assert.notStrictEqual(updatedTodo.modifiedAt, randomTodo.modifiedAt, 'Should have different dates')
+        })
+
         it('400 should fail updating a todo due to missing params', async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
@@ -113,6 +162,23 @@ describe('Todo Routes', () => {
             assert.strictEqual(updated.status, 404, 'Should have status of 404')
             assert.strictEqual(todos.length, numOfTodos, `Should have made ${numOfTodos} todos`)
         })
+        it(`404 Id not provided`, async () => {
+            const numOfTodos = 10
+            await mocks.createMany(numOfTodos)
+
+            const updated = await fetch(`${apiUrl}/update`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    task: 'Fake task',
+                }),
+                headers: { 'Content-Type': 'application/json' },
+            })
+
+            const updatedTodos: ITodo[] = await (await fetch(apiUrl)).json()
+
+            assert.strictEqual(updated.status, 404, 'Should have status of 404')
+            assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
+        })
     })
     describe('DELETE', () => {
         it('200 should delete a todo', async () => {
@@ -143,7 +209,7 @@ describe('Todo Routes', () => {
             assert.strictEqual(updatedTodos.length, numOfTodos, `Should have ${numOfTodos} todos`)
         })
 
-        it(`404 No ID Provided`, async () => {
+        it(`404 Id not provided`, async () => {
             const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
