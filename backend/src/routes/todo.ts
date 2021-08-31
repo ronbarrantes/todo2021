@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from 'express'
-// import { setTask } from '../utils'
 import httpErrors from 'http-errors'
 import { ITodo } from '../models/TodoModel'
 import { errorMessages as errMsg } from '../constants/messages'

@@ -1,12 +1,13 @@
 import { assert } from 'chai'
 import fetch from 'node-fetch'
 
-import { makeRandomWords } from './mocks/utils'
+import { chooseRandomItem, makeRandomWords } from './mocks/utils'
 import { start, stop } from '../lib/server'
 import { ITodo } from '../models/TodoModel'
 import * as mocks from './mocks/todoMock'
 
 const apiUrl = 'http://localhost:3000/todos'
+const numOfTodos = 10
 
 describe('Todo Routes', () => {
     before(() => start('testing'))
@@ -41,7 +42,6 @@ describe('Todo Routes', () => {
     })
     describe('GET', () => {
         it('200 get all 5 todos', async () => {
-            const numOfTodos = 5
             await mocks.createMany(numOfTodos)
             const fetched = await fetch(apiUrl)
             const data: ITodo[] = await fetched.json()
@@ -52,11 +52,10 @@ describe('Todo Routes', () => {
     })
     describe('PUT', () => {
         it('200 should update a todo', async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             let todos: ITodo[] = await (await fetch(apiUrl)).json()
-            const randomTodo = todos[Math.floor(Math.random() * numOfTodos)]
+            const randomTodo = chooseRandomItem(todos)
 
             randomTodo.task = 'Go to sleep'
             randomTodo.completed = true
@@ -80,11 +79,10 @@ describe('Todo Routes', () => {
         })
 
         it('200 should test updating task only', async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             let todos: ITodo[] = await (await fetch(apiUrl)).json()
-            const randomTodo = todos[Math.floor(Math.random() * numOfTodos)]
+            const randomTodo = chooseRandomItem(todos)
 
             randomTodo.task = 'Go to sleep'
 
@@ -104,11 +102,10 @@ describe('Todo Routes', () => {
         })
 
         it('200 should test updating completed only', async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             let todos: ITodo[] = await (await fetch(apiUrl)).json()
-            const randomTodo = todos[Math.floor(Math.random() * numOfTodos)]
+            const randomTodo = chooseRandomItem(todos)
 
             randomTodo.completed = true
 
@@ -128,13 +125,12 @@ describe('Todo Routes', () => {
         })
 
         it('400 should fail updating a todo due to missing params', async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             const todos: ITodo[] = await (await fetch(apiUrl)).json()
-            const middleTodo = todos[5]
+            const randomTodo = chooseRandomItem(todos)
 
-            const updated = await fetch(`${apiUrl}/update/${middleTodo._id}`, {
+            const updated = await fetch(`${apiUrl}/update/${randomTodo._id}`, {
                 method: 'PUT',
                 body: JSON.stringify({}),
                 headers: { 'Content-Type': 'application/json' },
@@ -144,7 +140,6 @@ describe('Todo Routes', () => {
             assert.strictEqual(todos.length, numOfTodos, `Should have made ${numOfTodos} todos`)
         })
         it(`404 can't find a todo that doesn't exist`, async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             const todos: ITodo[] = await (await fetch(apiUrl)).json()
@@ -161,7 +156,6 @@ describe('Todo Routes', () => {
             assert.strictEqual(todos.length, numOfTodos, `Should have made ${numOfTodos} todos`)
         })
         it(`404 Id not provided`, async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             const updated = await fetch(`${apiUrl}/update`, {
@@ -180,16 +174,16 @@ describe('Todo Routes', () => {
     })
     describe('DELETE', () => {
         it('200 should delete a todo', async () => {
-            const numOfTodos = 10
+
             await mocks.createMany(numOfTodos)
 
             const todos: ITodo[] = await (await fetch(apiUrl)).json()
-            const middleTodo = todos[5]
+            const randomTodo = chooseRandomItem(todos)
 
-            const deleted = await fetch(`${apiUrl}/remove/${middleTodo._id}`, { method: 'DELETE' })
+            const deleted = await fetch(`${apiUrl}/remove/${randomTodo._id}`, { method: 'DELETE' })
 
             const removedTodos: ITodo[] = await (await fetch(apiUrl)).json()
-            const hasDeletedTodo: boolean = removedTodos.map(todo => todo._id).includes(middleTodo._id)
+            const hasDeletedTodo: boolean = removedTodos.map(todo => todo._id).includes(randomTodo._id)
 
             assert.strictEqual(deleted.status, 200, 'Should have status of 200')
             assert.strictEqual(removedTodos.length, numOfTodos - 1, `Should have ${numOfTodos -1 } todos`)
@@ -197,7 +191,6 @@ describe('Todo Routes', () => {
         })
 
         it(`404 can't find a todo to delete`, async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             const deleted = await fetch(`${apiUrl}/remove/SuperFakeTodo`, { method: 'DELETE' })
@@ -208,7 +201,6 @@ describe('Todo Routes', () => {
         })
 
         it(`404 Id not provided`, async () => {
-            const numOfTodos = 10
             await mocks.createMany(numOfTodos)
 
             const deleted = await fetch(`${apiUrl}/remove`, { method: 'DELETE' })
