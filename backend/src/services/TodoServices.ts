@@ -1,28 +1,26 @@
 import { TodoModel as Todo, ITodo } from '../models/TodoModel'
-import { Document } from 'mongoose'
-
 class TodoServices {
-    static async getAll(): Promise<Document[]>{
-        return Todo.find({}).exec()
+    static async getAll(): Promise<ITodo[]>{
+        return await Todo.find({}).exec()
     }
 
-    static async create(data: ITodo): Promise<Document>{
+    static async create(data: ITodo): Promise<ITodo>{
         const todo = new Todo(data)
         return todo.save()
     }
 
-    // static async update(todoId: string, data: ITodo): Promise<> {
-    //     const todo = TodoModel.findByIdAndUpdate(todoId, data)
-    //     return todo
-    // }
+    static async update(todoId: string, data: ITodo): Promise<ITodo | null> {
+        data.modifiedAt = Date.now()
+        const todo = await Todo.findByIdAndUpdate(todoId, data).exec()
+        return todo
+    }
 
-    // static async remove(todoId){}
+    static async remove(todoId: string): Promise<ITodo | null> {
+        const deletedTodo = await Todo.findByIdAndDelete(todoId).exec()
+        return deletedTodo
+    }
 
-    // static async update(data: Partial<ITodo>):Promise<Document>{}
-    // static async remove(data: Partial<ITodo>):Promise<Document>{}
-
-// delete
-
+    // TODO: add a completed maybe
 }
 
 export default TodoServices

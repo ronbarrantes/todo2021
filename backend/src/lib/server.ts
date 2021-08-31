@@ -2,14 +2,13 @@ import express, { Request, Response } from 'express'
 import * as http from 'http'
 import morgan from 'morgan'
 import { json as jsonParser } from 'body-parser'
-import * as mongooseConnect from '../lib/mongoose-connect'
-import { errorMiddleware } from './errorMiddleware'
+import * as mongooseConnect from './mongooseConnect'
+import { errorMiddleware } from '../middleware/errorMiddleware'
 
 import todo from '../routes/todo'
 import * as config from '../config'
 import {
     errorMessages as errMsg,
-    infoMessages as infMsg,
     logMessages as logMsg,
 } from '../constants/messages'
 
@@ -23,7 +22,7 @@ app.use(morgan(config.isProduction ? 'combined' : 'dev'))
 // ROUTES
 app.use(todo)
 app.get('/', (_req: Request, res: Response) => res.json({ message: 'Todo App' }))
-app.all('*', (_req: Request, res: Response) => res.json({ message: infMsg.routes.doesNotExist }))
+app.all('*', (_req: Request, res: Response) => res.sendStatus(404))
 app.use(errorMiddleware)
 
 export const start = async (dbName?: string): Promise<void> => {
@@ -35,7 +34,7 @@ export const start = async (dbName?: string): Promise<void> => {
         if(server)
             throw new Error(errMsg.server.serverRunning)
         server = app.listen(PORT, () => {
-            console.log(logMsg.server.connected.replace('$1', `${PORT}`))
+            console.info(logMsg.server.connected.replace('$1', `${PORT}`))
         })
     } catch (error) {
         console.error(errMsg.error, error)
@@ -48,7 +47,7 @@ export const stop = async (): Promise<void> => {
             throw new Error(errMsg.server.noServerRunning)
 
         server.close(() => {
-            console.log(logMsg.server.disconnected)
+            console.info(logMsg.server.disconnected)
             server = null
         })
 
@@ -57,5 +56,4 @@ export const stop = async (): Promise<void> => {
     } catch (error) {
         console.error(errMsg.error, error)
     }
-
 }

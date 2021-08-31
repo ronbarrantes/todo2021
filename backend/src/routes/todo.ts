@@ -2,10 +2,9 @@ import { Router, Request, Response, NextFunction } from 'express'
 // import { setTask } from '../utils'
 import httpErrors from 'http-errors'
 import { ITodo } from '../models/TodoModel'
-import { errorMessages as errMsg,
-    // infoMessages as infMsg
-} from '../constants/messages'
+import { errorMessages as errMsg } from '../constants/messages'
 import TodoServices from '../services/TodoServices'
+import { sanitizeBody } from '../middleware/sanitize'
 
 const todo = Router()
     .get('/todos', async (_req: Request, res: Response) => {
@@ -13,7 +12,7 @@ const todo = Router()
         return res.json(todos)
     })
 
-    .post('/todos/add', async (req: Request, res: Response, next: NextFunction) => {
+    .post('/todos/add', sanitizeBody, async (req: Request, res: Response, next: NextFunction) => {
         const currTask = <ITodo>req.body
 
         if(!currTask.task)
@@ -24,40 +23,33 @@ const todo = Router()
         return res.json(newTodo)
     })
 
-    // .put('/todos/update/:todoId', (req: Request, res: Response, next: NextFunction) => {
-    //     const id = req.params.todoId
-    //     const body = <ITodo>req.body
+    .put('/todos/update/:todoId', sanitizeBody, async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.todoId
+        const body = <ITodo>req.body
 
-    //     if(id.length === 0 || !id)
-    //         return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
+        if(!body.task && !body.completed)
+            return next(httpErrors(400, errMsg.httpErrors.nothingToModify.replace('$1', id)))
 
-    //     if(!state.has(id))
-    //         return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
+        const newTodo = await TodoServices.update(id, body)
 
-    //     if(!body.task && !body.completed)
-    //         return next(httpErrors(400, errMsg.httpErrors.nothingToModify.replace('$1', id)))
+        if(!newTodo)
+            return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
 
-    //     const item = state.get(id)
-    //     const task = body.task || item?.task
-    //     const completed = body.completed || item?.completed
+        return res.json(newTodo)
+    })
 
-    //     const newTask = setTask({ ...item, task, completed })
-    //     state.set(id, newTask)
+    .delete('/todos/remove/:todoId', async (req: Request, res: Response, next: NextFunction) => {
+        const id = req.params.todoId
 
-    //     return res.json(newTask)
-    // })
+        let deletedTodo: ITodo | null
+        try {
+            deletedTodo = await TodoServices.remove(id)
+        } catch (error) {
+            console.error(error)
+            return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
+        }
 
-    // .delete('/todos/remove/:todoId', (req: Request, res: Response, next: NextFunction) => {
-    //     const id = req.params.todoId
-
-    //     if(id.length === 0 || !id)
-    //         return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
-
-    //     if(!state.has(id))
-    //         return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
-
-    //     state.delete(id)
-    //     return res.send({ message: infMsg.todos.deleted })
-    // })
+        return res.send(deletedTodo)
+    })
 
 export default todo

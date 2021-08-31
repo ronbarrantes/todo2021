@@ -4,10 +4,7 @@ export interface ITodo {
     completed?: boolean;
     createdAt?: number;
     modifiedAt?: number;
-}
-
-export interface IMongoTodo extends ITodo {
-    _id: string;
+    _id?: string;
 }
 
 export const TodoSchema = new mongoose.Schema<ITodo>({
