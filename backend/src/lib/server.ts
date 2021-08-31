@@ -9,7 +9,6 @@ import todo from '../routes/todo'
 import * as config from '../config'
 import {
     errorMessages as errMsg,
-    infoMessages as infMsg,
     logMessages as logMsg,
 } from '../constants/messages'
 
@@ -23,7 +22,7 @@ app.use(morgan(config.isProduction ? 'combined' : 'dev'))
 // ROUTES
 app.use(todo)
 app.get('/', (_req: Request, res: Response) => res.json({ message: 'Todo App' }))
-app.all('*', (_req: Request, res: Response) => res.json({ message: infMsg.routes.doesNotExist }))
+app.all('*', (_req: Request, res: Response) => res.sendStatus(404))
 app.use(errorMiddleware)
 
 export const start = async (dbName?: string): Promise<void> => {
