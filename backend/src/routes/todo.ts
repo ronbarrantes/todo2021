@@ -46,16 +46,17 @@ const todo = Router()
     .delete('/todos/remove/:todoId', async (req: Request, res: Response, next: NextFunction) => {
         const id = req.params.todoId
 
-        console.log('ID ==>>', id)
-
         if(!id)
             return next(httpErrors(400, errMsg.httpErrors.idNotAvailable))
-
-        const deletedTodo = await TodoServices.remove(id)
-        if(!deletedTodo)
+        let deletedTodo: ITodo | null
+        try {
+            deletedTodo = await TodoServices.remove(id)
+        } catch (error) {
+            console.error(error)
             return next(httpErrors(404, errMsg.httpErrors.todoDoesNotExist))
+        }
 
-        return res.send({ message: infMsg.todos.deleted })
+        return res.send(deletedTodo)
     })
 
 export default todo
