@@ -1,30 +1,33 @@
 module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    es2021: true,
-  },
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+    root: true,
+    env: {
+        browser: true,
+        es2021: true,
     },
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-  ],
-  rules: {
-    semi: ['error', 'never'],
+    extends: [
+        'plugin:react/recommended',
+        'airbnb',
+    ],
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 12,
+        sourceType: 'module',
+    },
+    plugins: [
+        'react',
+        '@typescript-eslint',
+    ],
+    rules: {
+        semi: ['error', 'never'],
+        quotes: ['warn', 'single', { allowTemplateLiterals: true }],
+        indent: ['error', 4, { SwitchCase: 1, ignoreComments: true }],
+        'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts'] }],
+
     /*
     // '@typescript-eslint/rule-name': 'error',
-    // quotes: ['warn', 'single', { allowTemplateLiterals: true }],
     // 'jsx-quotes': ['error', 'prefer-double'],
     'brace-style': ['error', '1tbs'],
     // 'no-multi-spaces': 'warn',
@@ -37,7 +40,7 @@ module.exports = {
     'no-console': 'off',
     // "no-console": [2, "error"],
     // 'no-unused-vars': 'off',
-    // indent: ['error', 4, { SwitchCase: 1, ignoreComments: true }], MAY NEED TO ENABLE
+
     'switch-colon-spacing': ['error', { after: true, before: false }],
 
     'space-in-parens': ['warn', 'never'],
@@ -46,5 +49,10 @@ module.exports = {
     'no-whitespace-before-property': 2,
     'arrow-spacing': 'error',
     */
-  },
+    },
+    settings: {
+        react: {
+            version: 'detect',
+        },
+    },
 }
