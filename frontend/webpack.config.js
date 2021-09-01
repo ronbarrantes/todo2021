@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-console.log('hello world')
 require('dotenv').config()
 
 const { EnvironmentPlugin } = require('webpack')
