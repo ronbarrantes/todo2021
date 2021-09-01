@@ -1,0 +1,35 @@
+{
+  "name": "todo-app-frontend",
+  "version": "0.0.1",
+  "description": "Some random frontend app",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "clean": "rm -rf ./db ./dist",
+    "build": "clean & tsc",
+    "watch": "tsc -w",
+    "ts-start": "npx ts-node src/index.ts",
+    "ts-watch": "nodemon",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
+    "prepare": "cd .. && husky install frontend/.husky",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "test": "ts-mocha -p tsconfig.json src/**/*.test.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "eslint": "^7.32.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  }
+}
