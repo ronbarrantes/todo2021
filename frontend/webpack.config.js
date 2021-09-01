@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+console.log('hello world')
 require('dotenv').config()
 
 const { EnvironmentPlugin } = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -11,7 +13,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const production = process.env.NODE_ENV === 'production'
 
 const plugins = [
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
 
     new HtmlWebpackPlugin({
         title: `Todo Site`,

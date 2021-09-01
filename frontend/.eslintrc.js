@@ -25,6 +25,8 @@ module.exports = {
         quotes: ['warn', 'single', { allowTemplateLiterals: true }],
         indent: ['error', 4, { SwitchCase: 1, ignoreComments: true }],
         'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts'] }],
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': ['error'],
 
     /*
     // '@typescript-eslint/rule-name': 'error',
