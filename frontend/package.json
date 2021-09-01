@@ -12,26 +12,31 @@
     "ts-watch": "nodemon",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
     "prepare": "cd .. && husky install frontend/.husky",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
     "test": "ts-mocha -p tsconfig.json src/**/*.test.ts"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.30.0",
-    "@typescript-eslint/parser": "^4.30.0",
+    "@types/react": "^17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "4.30.0",
+    "@typescript-eslint/parser": "4.30.0",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.1",
     "lint-staged": "^11.1.2",
+    "mini-css-extract-plugin": "^2.2.1",
     "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack": "^5.51.1"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
