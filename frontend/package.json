@@ -16,9 +16,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.0.0",
-    "@types/jest": "^27.0.1",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "4.30.0",
@@ -35,13 +32,10 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.1",
-    "jest": "^27.1.0",
     "lint-staged": "^11.1.2",
-    "live-server": "^1.1.0",
     "raw-loader": "^4.0.2",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
-    "ts-jest": "^27.0.5",
     "ts-loader": "^9.2.5",
     "typescript": "^4.4.2",
     "url-loader": "^4.1.1",
@@ -55,8 +49,13 @@
     ]
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "ts-jest": "^27.0.5",
     "webpack-merge": "^5.8.0"
   }
 }
