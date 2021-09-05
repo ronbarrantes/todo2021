@@ -12,13 +12,10 @@ const plugins = [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({ patterns: [{ from: 'public', to: 'public' }] }),
     new HtmlWebpackPlugin({
-        title: 'Todo Site Frontend',
-        meta: {
-            viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no',
-        },
+        title: 'To Do App',
+        meta: { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
         favicon: './public/assets/favicon.png',
     }),
-
 ]
 
 module.exports = {
@@ -31,9 +28,11 @@ module.exports = {
         path: PATHS.dist,
         publicPath: '/',
     },
+
     devServer: {
         historyApiFallback: true,
     },
+
     module: {
         rules: [
             {
@@ -41,6 +40,7 @@ module.exports = {
                 exclude: /node_modules/,
                 use: 'ts-loader',
             },
+
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
@@ -85,6 +85,5 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.css', '.sass'],
-
     },
 }
