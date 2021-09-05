@@ -12,9 +12,9 @@ const plugins = [
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({ patterns: [{ from: 'public', to: 'public' }] }),
     new HtmlWebpackPlugin({
-        title: `Todo Site`,
+        title: 'Todo Site Frontend',
         meta: {
-            viewport: `width=device-width, initial-scale=1, shrink-to-fit=no`,
+            viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no',
         },
         favicon: './public/assets/favicon.png',
     }),
