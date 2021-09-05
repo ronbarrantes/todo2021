@@ -27,7 +27,7 @@ module.exports = {
     entry: './src/main.tsx',
     devtool: 'inline-source-map',
     output: {
-        filename: '[name].[hash].js',
+        filename: '[name].[chunkhash].js',
         path: PATHS.dist,
         publicPath: '/',
     },
@@ -57,7 +57,7 @@ module.exports = {
                         loader: 'url-loader',
                         options: {
                             limit: 10000,
-                            name: 'font/[name].[hash].[ext]',
+                            name: 'font/[name].[chunkhash].[ext]',
                         },
                     },
                 ],
@@ -71,7 +71,7 @@ module.exports = {
                         loader: 'url-loader',
                         options: {
                             limit: 10000,
-                            name: 'image/[name].[hash].[ext]',
+                            name: 'image/[name].[chunkhash].[ext]',
                         },
                     },
                 ],
