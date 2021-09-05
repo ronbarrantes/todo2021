@@ -23,7 +23,6 @@ const plugins = [
 
 module.exports = {
     plugins,
-    watch: true,
     mode: 'development',
     entry: './src/main.tsx',
     devtool: 'inline-source-map',
@@ -34,7 +33,6 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        contentBase: `./dist`,
     },
     module: {
         rules: [

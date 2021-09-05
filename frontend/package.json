@@ -8,7 +8,7 @@
     "build-dev": "webpack --config webpack.config.js",
     "build-start": "npm run build & npm start",
     "start": "node ./dist/index.js",
-    "watch": "webpack-dev-server --inline --hot",
+    "watch": "webpack serve",
     "ts-start": "npx ts-node src/index.ts",
     "ts-watch": "nodemon",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
@@ -43,7 +43,8 @@
     "typescript": "^4.4.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0"
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.1.0"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
@@ -51,8 +52,8 @@
     ]
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "webpack-merge": "^5.8.0"
   }
 }
