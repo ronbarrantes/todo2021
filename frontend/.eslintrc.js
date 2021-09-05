@@ -3,6 +3,7 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
+        jest: true,
     },
     extends: [
         'plugin:react/recommended',
@@ -37,6 +38,7 @@ module.exports = {
                 tsx: 'never',
             },
         ],
+        'eol-last': ['error', 'never'],
         'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1, maxBOF: 1 }],
         'comma-dangle': ['error', 'always-multiline'],
         'object-curly-spacing': ['warn', 'always'],
