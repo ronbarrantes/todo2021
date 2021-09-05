@@ -15,7 +15,7 @@ const merged = merge(common, {
         publicPath: '/',
     },
 })
-console.log('#### BUILDING #####')
-console.log(merged)
-console.log('#### END BUILDING #####')
+// console.log('#### BUILDING #####')
+// console.log(merged)
+// console.log('#### END BUILDING #####')
 module.exports = merged
