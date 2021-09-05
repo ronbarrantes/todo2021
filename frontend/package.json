@@ -6,14 +6,11 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "build-dev": "webpack --config webpack.config.js",
-    "build-start": "npm run build & npm start",
-    "start": "node ./dist/index.js",
     "watch": "webpack serve",
-    "ts-start": "npx ts-node src/index.ts",
-    "ts-watch": "nodemon",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
     "prepare": "cd .. && husky install frontend/.husky",
-    "test": "ts-mocha -p tsconfig.json src/**/*.test.ts"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -40,6 +37,7 @@
     "husky": "^7.0.1",
     "jest": "^27.1.0",
     "lint-staged": "^11.1.2",
+    "live-server": "^1.1.0",
     "raw-loader": "^4.0.2",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
