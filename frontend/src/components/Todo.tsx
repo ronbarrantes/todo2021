@@ -1,4 +1,8 @@
 import React from 'react'
 
-const Todo = () => (<div>TODO</div>)
+interface ITodo{
+    item: string;
+}
+
+const Todo = (props: ITodo) => (<div>{props.item}</div>)
 export default Todo

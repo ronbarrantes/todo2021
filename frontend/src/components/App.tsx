@@ -1,4 +1,5 @@
 import React from 'react'
+import Board from './Board'
 
-const App = () => (<div id="app">Hello</div>)
+const App = () => (<Board />)
 export default App
