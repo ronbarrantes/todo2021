@@ -7,7 +7,7 @@ module.exports = {
     },
     extends: [
         'plugin:react/recommended',
-        'airbnb',
+        // 'airbnb', // MAY USE AIRBNB LATER, NOT WORKING FOR ME RIGHT NOW
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -21,34 +21,34 @@ module.exports = {
         'react',
         '@typescript-eslint',
     ],
+
     rules: {
-        '@typescript-eslint/no-use-before-define': ['error'],
+        'jsx-quotes': ['error', 'prefer-double'],
         semi: ['error', 'never'],
-        quotes: ['warn', 'single', { allowTemplateLiterals: true }],
-        indent: ['error', 4, { SwitchCase: 1, ignoreComments: true }],
-        'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts', '.js', '.jsx'] }],
-        'no-use-before-define': 'off',
-        'import/extensions': [
+        quotes: ['error', 'single', { allowTemplateLiterals: true }],
+        'brace-style': ['error', 'stroustrup'],
+        'no-multi-spaces': 'warn',
+        'comma-spacing': ['warn', { before: false, after: true }],
+        'require-atomic-updates': 'error',
+        'no-trailing-spaces': 'error',
+        'no-multiple-empty-lines': [
             'error',
-            'ignorePackages',
-            {
-                js: 'never',
-                jsx: 'never',
-                ts: 'never',
-                tsx: 'never',
-            },
+            { max: 1, maxEOF: 1, maxBOF: 1 },
         ],
-        'eol-last': ['error', 'never'],
-        'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1, maxBOF: 1 }],
         'comma-dangle': ['error', 'always-multiline'],
         'object-curly-spacing': ['warn', 'always'],
-        'arrow-spacing': 'error',
-        'brace-style': ['error', '1tbs'],
-        'space-in-parens': ['warn', 'never'],
-        'no-whitespace-before-property': 2,
-        'jsx-quotes': ['error', 'prefer-double'],
+        'no-console': 'off',
+        'no-unused-vars': 'off',
+        indent: ['error', 4, { SwitchCase: 1, ignoreComments: true }],
         'switch-colon-spacing': ['error', { after: true, before: false }],
+        semi: ['error', 'never'],
+        'space-in-parens': ['warn', 'never'],
+        'new-cap': ['error', { capIsNewExceptions: ['Record'] }],
+        camelcase: ['warn'],
+        'no-whitespace-before-property': 2,
+        'arrow-spacing': 'error',
     },
+
     settings: {
         react: {
             version: 'detect',
